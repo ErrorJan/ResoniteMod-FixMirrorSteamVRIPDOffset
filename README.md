@@ -7,6 +7,7 @@ When offsetting virtual IPD in SteamVR configs (steamvr.vrsettings) the mirror d
 To change your virtual IPD with steamvr.vrsettings open this file with a text editor. This config should be by default on Windows in ``C:\Program Files (x86)\Steam\config\steamvr.vrsettings``
 It's good to know how JSON works to be able to modify this config.
 Go to where it says ``"steamvr"`` and add the key-value pair ``"ipdOffset" : 0.039,`` with whatever you need (Example here with 0.039). Watch it! These are in meters!
+The default IPD by SteamVR seems to always be "0.063", so when adding an offset, make sure to add it to the default IPD
 
 It should look something like this:
 ```
