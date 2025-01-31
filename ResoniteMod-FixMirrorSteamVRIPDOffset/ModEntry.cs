@@ -53,14 +53,14 @@ public class ModEntry : ResoniteMod
 	
 	[AutoRegisterConfigKey]
 	private static readonly 
-		ModConfigurationKey<bool> rmlOffsetEnable = 
-			new("RML Offset Enable", 
+		ModConfigurationKey<bool> preferThisConfig = 
+			new("Prefer this config", 
 				"Should the offset in here (ResoniteModLoader Config) be preffered? (Has immediate effect!)", 
 				() => false);
 	[AutoRegisterConfigKey]
 	private static readonly 
-		ModConfigurationKey<float> rmlOffset = 
-			new("RML Offset", 
+		ModConfigurationKey<float> offset = 
+			new("offset", 
 				"How much should the IPD be offset? (Has immediate effect!)", 
 				() => 0.0f);
 
@@ -133,8 +133,8 @@ public class ModEntry : ResoniteMod
 			if ( !rmlConfig?.GetValue( modEnabled ) ?? false ) 
 				return original;
 
-			if ( rmlConfig?.GetValue( rmlOffsetEnable ) ?? false )
-				return original + rmlConfig.GetValue( rmlOffset );
+			if ( rmlConfig?.GetValue( preferThisConfig ) ?? false )
+				return original + rmlConfig.GetValue( offset );
 			
 			return original + m_ipdOffset;
 		}
