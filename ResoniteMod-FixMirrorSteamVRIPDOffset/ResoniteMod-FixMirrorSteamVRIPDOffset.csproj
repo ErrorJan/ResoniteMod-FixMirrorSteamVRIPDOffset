@@ -3,14 +3,18 @@
 		<RootNamespace>FixMirrorSteamVRIPDOffset</RootNamespace>
 		<AssemblyName>FixMirrorSteamVRIPDOffset</AssemblyName>
 		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-		<TargetFramework>net472</TargetFramework>
+		<TargetFrameworks>net9.0;netstandard2.0</TargetFrameworks>
 		<FileAlignment>512</FileAlignment>
 		<LangVersion>10.0</LangVersion>
 		<Nullable>enable</Nullable>
 		<Deterministic>true</Deterministic>
-		<!-- Change CopyToMods to true if you'd like builds to be moved into the Mods folder automatically-->
-		<CopyToMods Condition="'$(CopyToMods)'==''">true</CopyToMods>
 		<DebugType Condition="'$(Configuration)'=='Debug'">embedded</DebugType>
+		<RestoreAdditionalProjectSources>
+			https://api.nuget.org/v3/index.json;
+			https://nuget.bepinex.dev/v3/index.json;
+			https://nuget.samboy.dev/v3/index.json
+		</RestoreAdditionalProjectSources>
+		<CopyToMods Condition="'$(CopyToMods)'==''">true</CopyToMods>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(ResonitePath)'==''">
@@ -18,38 +22,93 @@
 		<ResonitePath>$(MSBuildThisFileDirectory)Resonite/</ResonitePath>
 		<ResonitePath Condition="Exists('C:\Program Files (x86)\Steam\steamapps\common\Resonite\')">C:\Program Files (x86)\Steam\steamapps\common\Resonite\</ResonitePath>
 		<ResonitePath Condition="Exists('$(HOME)/.steam/steam/steamapps/common/Resonite/')">$(HOME)/.steam/steam/steamapps/common/Resonite/</ResonitePath>
+		<ResonitePath Condition="Exists('$(HOME)/SSD/SteamLibrary/steamapps/common/Resonite/')">$(HOME)/SSD/SteamLibrary/steamapps/common/Resonite/</ResonitePath>
 	</PropertyGroup>
 
-	<ItemGroup>
+	<!-- FrooxEngine/Resonite -->
+	<ItemGroup Condition="'$(TargetFramework)' == 'net9.0'">
 		<Reference Include="ResoniteModLoader">
-		    <HintPath>$(ResonitePath)Libraries\ResoniteModLoader.dll</HintPath>
-		    <Private>False</Private>
+			<HintPath>$(ResonitePath)Libraries\ResoniteModLoader.dll</HintPath>
+			<Private>False</Private>
 		</Reference>
 		<Reference Include="HarmonyLib">
-		    <HintPath>$(ResonitePath)rml_libs\0Harmony.dll</HintPath>
-		    <HintPath Condition="Exists('$(ResonitePath)0Harmony.dll')">$(ResonitePath)0Harmony.dll</HintPath>
+			<HintPath>$(ResonitePath)rml_libs\0Harmony.dll</HintPath>
+			<HintPath Condition="Exists('$(ResonitePath)0Harmony.dll')">$(ResonitePath)0Harmony.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="Renderite.Shared">
+			<HintPath>$(ResonitePath)Renderite.Shared.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="Cloudtoid.Interprocess">
+			<HintPath>$(ResonitePath)YellowDogMan.Cloudtoid.Interprocess.dll</HintPath>
 			<Private>False</Private>
 		</Reference>
 		<Reference Include="FrooxEngine">
-		    <HintPath>$(ResonitePath)Resonite_Data\Managed\FrooxEngine.dll</HintPath>
-		    <Private>False</Private>
-		</Reference>
-		<Reference Include="UnityFrooxEngineRunner">
-		    <HintPath>$(ResonitePath)Resonite_Data\Managed\UnityFrooxEngineRunner.dll</HintPath>
-		    <Private>False</Private>
-		</Reference>
-		<Reference Include="UnityEngine.CoreModule">
-		    <HintPath>$(ResonitePath)Resonite_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
-		    <Private>False</Private>
-		</Reference>
-		<Reference Include="Newtonsoft.Json">
-		    <HintPath>$(ResonitePath)Resonite_Data\Managed\Newtonsoft.Json.dll</HintPath>
-		    <Private>False</Private>
+			<HintPath>$(ResonitePath)FrooxEngine.dll</HintPath>
+			<Private>False</Private>
+		</Reference> 
+		<Reference Include="Elements.Core">
+			<HintPath>$(ResonitePath)Elements.Core.dll</HintPath>
+			<Private>False</Private>
 		</Reference>
 	</ItemGroup>
 
+	<!-- BepInEx/Unity -->
+	<ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0' or '$(TargetFramework)' == 'net472'">
+		<PackageReference Include="BepInEx.Analyzers" Version="1.*" PrivateAssets="all" />
+		<PackageReference Include="BepInEx.Core" Version="5.*" />
+		<PackageReference Include="BepInEx.PluginInfoProps" Version="2.*" />
+		<Reference Include="Renderite.Unity">
+			<HintPath>$(ResonitePath)Renderer\Renderite.Renderer_Data\Managed\Renderite.Unity.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="Renderite.Shared">
+			<HintPath>$(ResonitePath)Renderer\Renderite.Renderer_Data\Managed\Renderite.Shared.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="Cloudtoid.Interprocess">
+			<HintPath>$(ResonitePath)Renderer\Renderite.Renderer_Data\Managed\YellowDogMan.Cloudtoid.Interprocess.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="System.Memory">
+			<HintPath>$(ResonitePath)Renderer\Renderite.Renderer_Data\Managed\System.Memory.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="UnityEngine.CoreModule">
+			<HintPath>$(ResonitePath)Renderer\Renderite.Renderer_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="UnityEngine">
+			<HintPath>$(ResonitePath)Renderer\Renderite.Renderer_Data\Managed\UnityEngine.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="Valve.Newtonsoft.Json">
+			<HintPath>$(ResonitePath)Renderer\Renderite.Renderer_Data\Managed\Valve.Newtonsoft.Json.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+	</ItemGroup>
+	
+
+	<ItemGroup Condition="'$(TargetFramework.TrimEnd(`0123456789`))' == 'net'">
+		<PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2" PrivateAssets="all" />
+	</ItemGroup>
+
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(CopyToMods)'=='true'">
-		<Message Text="Attempting to copy $(TargetFileName) to $(ResonitePath)rml_mods" Importance="high" />
-		<Copy SourceFiles="$(TargetDir)$(TargetFileName)" DestinationFolder="$(ResonitePath)rml_mods" ContinueOnError="true" />
+		<Message Text="Processing build output for framework: $(TargetFramework)" Importance="high" />
+
+		<!-- For .NET 9.0 - Copy to RML mods folder -->
+		<Copy
+				SourceFiles="$(TargetDir)$(TargetFileName)"
+				DestinationFolder="$(ResonitePath)rml_mods"
+				Condition="'$(TargetFramework)' == 'net9.0'"
+				ContinueOnError="true" />
+
+		<!-- For .NET Standard 2.0 - Copy to BepInEx plugins folder -->
+		<Copy
+				SourceFiles="$(TargetDir)$(TargetFileName)"
+				DestinationFiles="$(ResonitePath)Renderer/BepInEx/plugins/FixMirrorSteamVRIPDOffset_BepInEx.dll"
+				Condition="'$(TargetFramework)' == 'netstandard2.0'"
+				ContinueOnError="true" />
 	</Target>
 </Project>
