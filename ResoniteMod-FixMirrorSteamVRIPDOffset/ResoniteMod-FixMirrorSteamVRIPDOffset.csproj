@@ -3,7 +3,7 @@
 		<RootNamespace>FixMirrorSteamVRIPDOffset</RootNamespace>
 		<AssemblyName>FixMirrorSteamVRIPDOffset</AssemblyName>
 		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-		<TargetFrameworks>net9.0;netstandard2.0</TargetFrameworks>
+		<TargetFrameworks>net10.0;netstandard2.0</TargetFrameworks>
 		<FileAlignment>512</FileAlignment>
 		<LangVersion>10.0</LangVersion>
 		<Nullable>enable</Nullable>
@@ -26,7 +26,7 @@
 	</PropertyGroup>
 
 	<!-- FrooxEngine/Resonite -->
-	<ItemGroup Condition="'$(TargetFramework)' == 'net9.0'">
+	<ItemGroup Condition="'$(TargetFramework)' == 'net10.0'">
 		<Reference Include="ResoniteModLoader">
 			<HintPath>$(ResonitePath)Libraries\ResoniteModLoader.dll</HintPath>
 			<Private>False</Private>
@@ -97,11 +97,11 @@
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(CopyToMods)'=='true'">
 		<Message Text="Processing build output for framework: $(TargetFramework)" Importance="high" />
 
-		<!-- For .NET 9.0 - Copy to RML mods folder -->
+		<!-- For .NET 10.0 - Copy to RML mods folder -->
 		<Copy
 				SourceFiles="$(TargetDir)$(TargetFileName)"
 				DestinationFolder="$(ResonitePath)rml_mods"
-				Condition="'$(TargetFramework)' == 'net9.0'"
+				Condition="'$(TargetFramework)' == 'net10.0'"
 				ContinueOnError="true" />
 
 		<!-- For .NET Standard 2.0 - Copy to BepInEx plugins folder -->

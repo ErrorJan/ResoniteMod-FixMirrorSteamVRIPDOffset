@@ -2,7 +2,7 @@ namespace FixMirrorSteamVRIPDOffset;
 
 public static class ModInfo 
 {
-	internal const string ModVersion = "2.0.0";
+	internal const string ModVersion = "2.0.1";
 	public const string ModName = "Fix Mirror - SteamVR IPDOffset";
 	public const string ModAuthor = "ErrorJan";
 	public const string ModPage = "https://github.com/ErrorJan/ResoniteMod-FixMirrorSteamVRIPDOffset/";

@@ -1,4 +1,4 @@
-#if NET9_0
+#if NET10_0_OR_GREATER
 using Elements.Core;
 using Renderite.Shared;
 using ResoniteModLoader;
